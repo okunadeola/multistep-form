@@ -1,6 +1,6 @@
 
+import {useEffect} from "react"
 import { useDispatch, useSelector } from "react-redux";
-
 import * as yup from 'yup'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -24,7 +24,7 @@ const phoneRegExp = /^(\+?\d{0,4})?\s?-?\s?(\(?\d{3}\)?)\s?-?\s?(\(?\d{3}\)?)\s?
 const PersonalInfo = () => {
     const store = useSelector(state => state.plan.planData)
 
-      const {register, handleSubmit, formState: {errors}} = useForm({
+      const {register, handleSubmit, setValue, formState: {errors}} = useForm({
         resolver: yupResolver(Schema)
       })
 
@@ -34,6 +34,16 @@ const PersonalInfo = () => {
 
       
     const dispatch = useDispatch()
+
+
+
+
+    useEffect(()=>{
+      setValue("Name", store?.Name)
+      setValue("Email", store?.Email)
+      setValue("Phone", store?.Phone)
+    }, [])
+  
 
     const onSubmit = (data)=>{
       let form = {...store, ...data}
